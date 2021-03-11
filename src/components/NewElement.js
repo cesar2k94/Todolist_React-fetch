@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from './List';
 
 const NewElement = () => {
 
     const [element, setElement] = useState('');
+    
+    const [elementFech, setElementFech] = useState([]);
 
-    const [list1, setList1] = useState(['Make the bed', 'Eat', 'Walk the dog']);
+    const [list1, setList1] = useState([]);
+
+    useEffect(() => {
+        fetch("https://assets.breatheco.de/apis/fake/todos/user/juliocesar")
+        .then(resp => resp.json())
+        .then(data => setElementFech(data))
+        .catch(error => console.log(error));
+    }, [])
 
     const InputElement = (e) => {
         setElement(e.target.value);
@@ -15,6 +24,10 @@ const NewElement = () => {
         e.preventDefault();
         setList1(list1.concat(element));
         setElement('');
+    }
+
+    const ListClear =() =>{
+        setList1([]);
     }
 
     return (
@@ -27,13 +40,14 @@ const NewElement = () => {
                     value={element}
                     onChange={InputElement}
                 />
-                <List list1={list1} setList1={setList1}/>
+                <List list1={list1} setList1={setList1} elementFech={elementFech}/>
                 <div className="sizeList">
-                    <p>{list1.length} item left</p>
+                    <p>{elementFech.length} item left</p>
                 </div>
             </form>
             <div className="shade1"></div>
             <div className="shade2"></div>
+            <button className="clear-list" onClick={ListClear}>Limpiar Lista</button>
         </>
     );
 }

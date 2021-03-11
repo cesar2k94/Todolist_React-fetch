@@ -108,3 +108,13 @@
   top: -60px;
   border-bottom: 1px solid #f0e9e9;
 }
+.clear-list{
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgb(245, 214, 199);
+  border: 1px solid ;
+}
+
+.clear-list:hover{
+ background: rgb(223, 172, 147);
+}

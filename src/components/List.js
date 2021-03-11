@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
-const List = ({ list1, setList1 }) => {
+const List = ({ list1, setList1, elementFech }) => {
     const DeleteElement=(index)=>{
         setList1(list1.filter((list2,ind)=>(ind!==index)));
     }
     return (
         <ul className="list">
-            {list1.map((list, index) =>
+            {elementFech.map((list, index) =>
                 <li className="element" key={index}>
                     <div className="text-element" >
-                        {list}
+                        {list.label}
                     </div>
                     <FontAwesomeIcon
                         icon={faTimes}
