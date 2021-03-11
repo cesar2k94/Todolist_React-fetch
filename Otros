@@ -1,0 +1,59 @@
+//usando DELETE para vaciar lista
+
+ const [counter, setCounter] = useState(0);
+
+    useEffect(() => {
+        fetch("https://assets.breatheco.de/apis/fake/todos/user/juliocesar")
+            .then(resp => resp.json())
+            .then(data => setElementFech(data))
+            .catch(error => console.log(error));
+    }, [counter])
+
+
+    fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+        method: "PUT",
+        body: JSON.stringify(elementFech),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+
+    const InputElement = (e) => {
+        setElement(e.target.value);
+    }
+
+    const addElement = (e) => {
+        e.preventDefault();
+        if (counter == 0) {
+            setElementFech({ "label": element, "done": false });
+            fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "label": element,
+                    "done": "flase"
+                }),
+                headers: { "Content-type": "application/json" },
+            })
+                setCounter(counter + 1);
+        } else {
+            fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+                method: "PUT",
+                body: JSON.stringify(elementFech),
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(resp => resp.json())
+                .then(() => setElementFech(elementFech.concat({ "label": element, "done": false })))
+                .catch(error => console.log(error));
+        }
+        setElement('');
+    }
+
+
+    const ListClear = () => {
+        setElementFech([]);
+        setCounter(counter *0);
+        setElement("");
+        fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+            method: "DELETE"
+        });      
+    }

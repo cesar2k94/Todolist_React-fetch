@@ -7,27 +7,44 @@ const NewElement = () => {
     
     const [elementFech, setElementFech] = useState([]);
 
-    const [list1, setList1] = useState([]);
-
     useEffect(() => {
         fetch("https://assets.breatheco.de/apis/fake/todos/user/juliocesar")
         .then(resp => resp.json())
         .then(data => setElementFech(data))
         .catch(error => console.log(error));
     }, [])
+       
+    
+    fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+        method : "PUT",
+        body: JSON.stringify(elementFech),
+        headers:{
+            "Content-Type": "application/json"
+        },
+    })
 
     const InputElement = (e) => {
         setElement(e.target.value);
     }
 
     const addElement = (e) => {
-        e.preventDefault();
-        setList1(list1.concat(element));
+        
+        e.preventDefault(); 
+       
+        fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+        method : "PUT",
+        body: JSON.stringify(elementFech),
+        headers:{"Content-Type": "application/json"},
+       })
+       .then(resp => resp.json())
+       .then(() => setElementFech(elementFech.concat({"label": element, "done":false})))
+       .catch(error => console.log(error));
         setElement('');
+        
     }
 
     const ListClear =() =>{
-        setList1([]);
+        setElementFech(elementFech.filter((list2,ind)=>(ind==0)));
     }
 
     return (
@@ -40,9 +57,9 @@ const NewElement = () => {
                     value={element}
                     onChange={InputElement}
                 />
-                <List list1={list1} setList1={setList1} elementFech={elementFech}/>
+                <List elementFech={elementFech} setElementFech={setElementFech}/>
                 <div className="sizeList">
-                    <p>{elementFech.length} item left</p>
+                    <p>{elementFech.length>0 ? elementFech.length:"0"} item left</p>
                 </div>
             </form>
             <div className="shade1"></div>
