@@ -1,0 +1,43 @@
+    const [element, setElement] = useState('');
+    
+    const [elementFech, setElementFech] = useState([]);
+
+    useEffect(() => {
+        fetch("https://assets.breatheco.de/apis/fake/todos/user/juliocesar")
+        .then(resp => resp.json())
+        .then(data => setElementFech(data))
+        .catch(error => console.log(error));
+    }, [])
+       
+    
+    fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+        method : "PUT",
+        body: JSON.stringify(elementFech),
+        headers:{
+            "Content-Type": "application/json"
+        },
+    })
+
+    const InputElement = (e) => {
+        setElement(e.target.value);
+    }
+
+    const addElement = (e) => {
+        
+        e.preventDefault(); 
+       
+        fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+        method : "PUT",
+        body: JSON.stringify(elementFech),
+        headers:{"Content-Type": "application/json"},
+       })
+       .then(resp => resp.json())
+       .then(() => setElementFech(elementFech.concat({"label": element, "done":false})))
+       .catch(error => console.log(error));
+        setElement('');
+        
+    }
+
+    const ListClear =() =>{
+        setElementFech(elementFech.filter((list2,ind)=>(ind==0)));
+    }

@@ -7,18 +7,19 @@ const NewElement = () => {
     
     const [elementFech, setElementFech] = useState([]);
 
+
     useEffect(() => {
         fetch("https://assets.breatheco.de/apis/fake/todos/user/juliocesar")
-        .then(resp => resp.json())
-        .then(data => setElementFech(data))
-        .catch(error => console.log(error));
+            .then(resp => resp.json())
+            .then(data => setElementFech(data))
+            .catch(error => console.log(error));
     }, [])
-       
-    
+
+
     fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
-        method : "PUT",
+        method: "PUT",
         body: JSON.stringify(elementFech),
-        headers:{
+        headers: {
             "Content-Type": "application/json"
         },
     })
@@ -27,26 +28,38 @@ const NewElement = () => {
         setElement(e.target.value);
     }
 
-    const addElement = (e) => {
-        
-        e.preventDefault(); 
-       
-        fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
-        method : "PUT",
-        body: JSON.stringify(elementFech),
-        headers:{"Content-Type": "application/json"},
-       })
-       .then(resp => resp.json())
-       .then(() => setElementFech(elementFech.concat({"label": element, "done":false})))
-       .catch(error => console.log(error));
+    const addElement = (e) => {  
+        e.preventDefault();
+        if (elementFech.length == 0) {
+            setElementFech(elementFech.concat({ "label": element, "done": false }));
+            fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "label": element,
+                    "done": "flase"
+                }),
+                headers: { "Content-type": "application/json" },
+            })
+        } else {
+            fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+                method: "PUT",
+                body: JSON.stringify(elementFech),
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(resp => resp.json())
+                .then(() => setElementFech(elementFech.concat({ "label": element, "done": false })))
+                .catch(error => console.log(error));
+        }
         setElement('');
-        
     }
 
-    const ListClear =() =>{
-        setElementFech(elementFech.filter((list2,ind)=>(ind==0)));
+    const ListClear = () => {
+        setElementFech([]);
+        setElement("");
+        fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+            method: "DELETE"
+        });         
     }
-
     return (
         <>
             <form className="tolist" onSubmit={addElement} >
@@ -57,7 +70,7 @@ const NewElement = () => {
                     value={element}
                     onChange={InputElement}
                 />
-                <List elementFech={elementFech} setElementFech={setElementFech}/>
+                <List elementFech={elementFech} setElementFech={setElementFech} ListClear={ListClear}/>
                 <div className="sizeList">
                     <p>{elementFech.length>0 ? elementFech.length:"0"} item left</p>
                 </div>

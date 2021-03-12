@@ -23,7 +23,6 @@
     }
 
     const addElement = (e) => {
-        e.preventDefault();
         if (counter == 0) {
             setElementFech({ "label": element, "done": false });
             fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
@@ -35,7 +34,8 @@
                 headers: { "Content-type": "application/json" },
             })
                 setCounter(counter + 1);
-        } else {
+        } else {   
+            e.preventDefault();
             fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
                 method: "PUT",
                 body: JSON.stringify(elementFech),
