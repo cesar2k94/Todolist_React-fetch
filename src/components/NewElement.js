@@ -7,8 +7,6 @@ const NewElement = () => {
 
     const [elementFech, setElementFech] = useState([]);
 
-    const [state, setState] = useState(0)
-
     useEffect(() => {
         fetch("https://assets.breatheco.de/apis/fake/todos/user/juliocesar")
             .then(resp => resp.json())
