@@ -57,3 +57,45 @@
             method: "DELETE"
         });      
     }
+
+    //Otro metodo
+       fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+        method : "PUT",
+        body: JSON.stringify(elementFech),
+        headers:{
+            "Content-Type": "application/json"
+        },
+    })
+
+    const InputElement = (e) => {
+        setElement(e.target.value);
+    }
+
+    const addElement = (e) => {  
+        e.preventDefault();
+        if (elementFech.length <1 ) { 
+            setElementFech(elementFech.concat({ "label": element, "done": false }));
+            fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "label": element,
+                    "done": "flase"
+                }),
+                headers: { "Content-type": "application/json" },
+            })
+        } else {
+            console.log(element);
+            //let array= elementFech;
+            setElementFech(elementFech.concat({ "label": element, "done": false }))
+            console.log(elementFech);
+            fetch('https://assets.breatheco.de/apis/fake/todos/user/juliocesar', {
+                method: "PUT",
+                body: JSON.stringify(elementFech),
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(resp => resp.json())
+                .then(data => console.log(data))
+                .catch(error => console.log(error));
+        }
+        setElement('');
+    }

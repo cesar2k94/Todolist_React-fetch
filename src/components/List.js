@@ -24,7 +24,7 @@ const List = ({ elementFech,setElementFech,ListClear}) => {
                         onClick={()=>DeleteElement( index)}                        
                     />
                 </li>)
-             :<di></di>
+             :<div></div>
             }
         </ul>
     );
